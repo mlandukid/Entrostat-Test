@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const otpRoutes = require('./routes/otpRoutes');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocs = require('./swagger');
+const path = require('path');
 
 const app = express();
 
@@ -12,8 +13,12 @@ app.use(bodyParser.json());
 app.use('/api/otp', otpRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.get('/', (req, res) => {
-    res.send('Welcome to the Entrostat OTP API!');
+// Serve static files from the 'frontend' directory
+app.use(express.static(path.join(__dirname, '../frontend')));
+
+// For any other route, serve the frontend's index.html file
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
 });
 
 const PORT = process.env.PORT || 8080;
