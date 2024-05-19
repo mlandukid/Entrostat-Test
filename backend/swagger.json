@@ -1,0 +1,69 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Entrostat OTP API",
+      "version": "1.0.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api",
+    "schemes": ["http"],
+    "paths": {
+      "/otp/generate": {
+        "post": {
+          "summary": "Generate an OTP",
+          "parameters": [
+            {
+              "name": "email",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OTP generated successfully"
+            }
+          }
+        }
+      },
+      "/otp/verify": {
+        "post": {
+          "summary": "Verify an OTP",
+          "parameters": [
+            {
+              "name": "email",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "otp": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OTP verified successfully"
+            },
+            "400": {
+              "description": "Invalid OTP"
+            }
+          }
+        }
+      }
+    }
+  }
+  
