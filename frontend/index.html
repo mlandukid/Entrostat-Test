@@ -12,10 +12,17 @@
         button {
             margin-right: 10px;
         }
+        .quote-container {
+            text-align: center;
+            color: yellow;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <div id="quote" class="quote-container"></div>
         <h1>Entrostat Generate OTP</h1>
         <form id="otp-form">
             <label for="email">Email:</label>
@@ -26,7 +33,6 @@
             </div>
         </form>
         <div id="message"></div>
-        <div id="quote"></div>
     </div>
     <script src="scripts.js"></script>
 </body>
