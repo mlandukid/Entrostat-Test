@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrostat OTP Verification</title>
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .button-container {
+            margin-top: 10px;
+        }
+        button {
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -14,12 +22,14 @@
             <input type="email" id="verify-email" name="email" required>
             <label for="otp">OTP:</label>
             <input type="text" id="otp" name="otp" required>
-            <button type="submit">Verify</button>
+            <div class="button-container">
+                <button type="submit">Verify</button>
+                <button type="button" id="back-button">Back</button>
+            </div>
         </form>
         <div id="message"></div>
     </div>
     <script src="verify.js"></script>
 </body>
 </html>
-
 

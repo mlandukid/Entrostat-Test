@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrostat OTP Generate</title>
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .button-container {
+            margin-top: 10px;
+        }
+        button {
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -12,9 +20,11 @@
         <form id="otp-form">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
-            <button type="submit">Submit</button>
+            <div class="button-container">
+                <button type="submit">Submit</button>
+                <button type="button" id="resend-button">Resend OTP</button>
+            </div>
         </form>
-        <button id="resend-button">Resend OTP</button>
         <div id="message"></div>
         <div id="quote"></div>
     </div>

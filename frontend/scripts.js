@@ -29,9 +29,7 @@ document.getElementById('otp-form').addEventListener('submit', function (event) 
     .then(response => response.json())
     .then(data => {
         document.getElementById('message').innerText = data.message;
-        if (data.message === 'OTP sent successfully') {
-            window.location.href = 'verify.html?email=' + email;
-        }
+        window.location.href = 'verify.html?email=' + encodeURIComponent(email);
     })
     .catch(error => {
         console.error('Error:', error);
@@ -54,9 +52,9 @@ document.getElementById('resend-button').addEventListener('click', function () {
     .then(response => response.json())
     .then(data => {
         document.getElementById('message').innerText = data.message;
+        window.location.href = 'verify.html?email=' + encodeURIComponent(email);
     })
     .catch(error => {
         console.error('Error:', error);
     });
 });
-
