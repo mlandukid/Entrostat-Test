@@ -1,8 +1,8 @@
 const OTP = require('../models/otpModel');
 const redisClient = require('../utils/redisClient');
 const nodemailer = require('nodemailer');
+const { promisify } = require('util');
 
-// Configure the nodemailer transporter using environment variables for SMTP settings
 const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,
@@ -12,68 +12,60 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// Function to generate and send an OTP
-const generateOTP = (email, callback) => {
-    // Check how many OTP requests have been made for the given email
-    redisClient.get(`otp:count:${email}`, (err, count) => {
-        if (err) return callback(err);
-        if (count >= 3) return callback(new Error('Too many OTP requests'));
+redisClient.getAsync = promisify(redisClient.get).bind(redisClient);
+redisClient.setAsync = promisify(redisClient.set).bind(redisClient);
+redisClient.incrAsync = promisify(redisClient.incr).bind(redisClient);
+redisClient.expireAsync = promisify(redisClient.expire).bind(redisClient);
+redisClient.delAsync = promisify(redisClient.del).bind(redisClient);
 
-        // Check if an OTP already exists for the given email
-        redisClient.get(`otp:${email}`, (err, reply) => {
-            if (err) return callback(err);
+const generateOTP = async (email) => {
+    try {
+        const count = await redisClient.getAsync(`otp:count:${email}`);
+        if (count >= process.env.OTP_REQUEST_LIMIT_PER_HOUR) {
+            throw new Error('Too many OTP requests');
+        }
 
-            let otp;
-            if (reply) {
-                // If an existing OTP is found, reuse it
-                const existingOtp = JSON.parse(reply);
-                otp = existingOtp.otp;
-            } else {
-                // Otherwise, generate a new OTP
-                otp = OTP.generateOTP();
-            }
+        let otp = await redisClient.getAsync(`otp:${email}`);
+        if (!otp) {
+            otp = OTP.generateOTP();
+        }
 
-            // Create a new OTP instance and save it to Redis
-            const otpInstance = new OTP(email, otp);
-            otpInstance.save((err) => {
-                if (err) return callback(err);
+        const otpInstance = new OTP(email, otp);
+        await otpInstance.save();
 
-                // Set up the email options
-                const mailOptions = {
-                    from: process.env.SMTP_FROM,
-                    to: email,
-                    subject: 'Your OTP Code',
-                    text: `Your OTP code is ${otp}`
-                };
+        const mailOptions = {
+            from: process.env.SMTP_FROM,
+            to: email,
+            subject: 'Your OTP Code',
+            text: `Your OTP code is ${otp}`
+        };
 
-                // Send the OTP via email
-                transporter.sendMail(mailOptions, (err, info) => {
-                    if (err) return callback(err);
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email sent: ' + info.response);
 
-                    // Increment the OTP request count for the given email
-                    redisClient.incr(`otp:count:${email}`, (err) => {
-                        if (err) return callback(err);
+        await redisClient.incrAsync(`otp:count:${email}`);
+        await redisClient.expireAsync(`otp:count:${email}`, 3600);
 
-                        // Set an expiration time for the OTP request count (1 hour TTL)
-                        redisClient.expire(`otp:count:${email}`, 3600); // 1 hour TTL
-                        callback(null, 'OTP sent successfully');
-                    });
-                });
-            });
-        });
-    });
+        return 'OTP sent successfully';
+    } catch (error) {
+        console.error('Error generating OTP:', error);
+        throw new Error('Error generating OTP');
+    }
 };
 
-// Function to verify a given OTP
-const verifyOTP = (email, otp, callback) => {
-    OTP.verify(email, otp, (err, isValid) => {
-        if (err) return callback(err);
+const verifyOTP = async (email, otp) => {
+    try {
+        const isValid = await OTP.verify(email, otp);
         if (isValid) {
-            // If OTP is valid, delete it from Redis
-            redisClient.del(`otp:${email}`);
+            await redisClient.delAsync(`otp:${email}`);
         }
-        callback(null, isValid);
-    });
+        return isValid;
+    } catch (error) {
+        console.error('Error verifying OTP:', error);
+        throw new Error('Error verifying OTP');
+    }
 };
 
 module.exports = { generateOTP, verifyOTP };
+
+
