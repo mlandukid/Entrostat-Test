@@ -31,7 +31,7 @@ The Entrostat OTP System is a secure One-Time Password (OTP) generation and veri
 ## Technologies Used
 
 - **Backend**: Node.js, Express.js
-- **Database**: Redis, PostgreSQL
+- **Database**: Redis
 - **Frontend**: HTML, CSS, JavaScript
 - **API Documentation**: Swagger
 - **Testing**: Jest
@@ -43,7 +43,6 @@ The Entrostat OTP System is a secure One-Time Password (OTP) generation and veri
 
 - Node.js and npm
 - Redis
-- PostgreSQL
 
 ### Installation
 
