@@ -1,5 +1,7 @@
 const otpService = require('../services/otpService');
 
+
+// Controller function to generate an OTP
 exports.generateOTP = async (req, res) => {
     try {
         const { email } = req.body;
@@ -13,6 +15,8 @@ exports.generateOTP = async (req, res) => {
     }
 };
 
+
+// Controller function to verify an OTP
 exports.verifyOTP = async (req, res) => {
     try {
         const { email, otp } = req.body;
