@@ -135,6 +135,9 @@ npm test
 
 - Rate Limiting: Implemented to prevent abuse by limiting the number of OTP requests per hour and the number of resends.
 
+- Hashing OTPs: OTPs are hashed before being stored in Redis to enhance security. Hashing ensures that even if someone gains access to the Redis database, the OTPs cannot be 
+  easily retrieved.
+
 ## Improvements
 
 - Enhanced Security: Implement measures such as encryption for sensitive data and more sophisticated rate-limiting mechanisms.
