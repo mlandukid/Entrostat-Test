@@ -3,6 +3,7 @@ const redisClient = require('../utils/redisClient');
 const nodemailer = require('nodemailer');
 const { promisify } = require('util');
 
+// Configure the nodemailer transporter
 const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,
@@ -12,6 +13,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+// Promisify Redis client methods for async/await usage
 redisClient.getAsync = promisify(redisClient.get).bind(redisClient);
 redisClient.setAsync = promisify(redisClient.set).bind(redisClient);
 redisClient.incrAsync = promisify(redisClient.incr).bind(redisClient);
@@ -27,15 +29,16 @@ const generateOTP = async (email) => {
             throw new Error('Too many OTP requests');
         }
 
+       // Generate a new OTP if none exists or if the existing OTP is not unique
         let otp = await redisClient.getAsync(`otp:${email}`);
         if (!otp || !(await OTP.isOTPUnique(email, otp))) {
             otp = OTP.generateOTP();
         }
-
         const otpInstance = new OTP(email, otp);
         await otpInstance.save();
         await OTP.saveOTPToHistory(email, otp);
-
+        
+         // Configure the email options
         const mailOptions = {
             from: process.env.SMTP_FROM,
             to: email,
