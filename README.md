@@ -48,8 +48,8 @@ The Entrostat OTP System is a secure One-Time Password (OTP) generation and veri
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/yourusername/entrostat-otp.git
-   cd entrostat-OTP
+   git clone https://github.com/mlandukid/Entrostat-Test
+   cd test@loyiso backend
 
 2. **Backend setup:**
    ```sh
