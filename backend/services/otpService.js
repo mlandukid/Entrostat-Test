@@ -17,6 +17,8 @@ redisClient.setAsync = promisify(redisClient.set).bind(redisClient);
 redisClient.incrAsync = promisify(redisClient.incr).bind(redisClient);
 redisClient.expireAsync = promisify(redisClient.expire).bind(redisClient);
 redisClient.delAsync = promisify(redisClient.del).bind(redisClient);
+redisClient.lpushAsync = promisify(redisClient.lpush).bind(redisClient);
+redisClient.lrangeAsync = promisify(redisClient.lrange).bind(redisClient);
 
 const generateOTP = async (email) => {
     try {
@@ -26,12 +28,13 @@ const generateOTP = async (email) => {
         }
 
         let otp = await redisClient.getAsync(`otp:${email}`);
-        if (!otp) {
+        if (!otp || !(await OTP.isOTPUnique(email, otp))) {
             otp = OTP.generateOTP();
         }
 
         const otpInstance = new OTP(email, otp);
         await otpInstance.save();
+        await OTP.saveOTPToHistory(email, otp);
 
         const mailOptions = {
             from: process.env.SMTP_FROM,
@@ -67,5 +70,6 @@ const verifyOTP = async (email, otp) => {
 };
 
 module.exports = { generateOTP, verifyOTP };
+
 
 

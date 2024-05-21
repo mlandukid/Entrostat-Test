@@ -19,6 +19,9 @@ client.setAsync = promisify(client.set).bind(client);
 client.incrAsync = promisify(client.incr).bind(client);
 client.expireAsync = promisify(client.expire).bind(client);
 client.delAsync = promisify(client.del).bind(client);
+client.lpushAsync = promisify(client.lpush).bind(client);
+client.lrangeAsync = promisify(client.lrange).bind(client);
 
 module.exports = client;
+
 

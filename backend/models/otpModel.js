@@ -9,7 +9,8 @@ class OTP {
     
     // Generate a random 6-digit OTP
     static generateOTP() {
-        return crypto.randomBytes(3).toString('hex').padStart(6, '0');
+        // Ensure OTP can start with 0 and is always 6 digits
+        return Math.floor(100000 + Math.random() * 900000).toString().padStart(6, '0');
     }
      
     // Save the OTP instance to Redis with an expiry time
@@ -27,6 +28,20 @@ class OTP {
 
         const otpInstance = JSON.parse(data);
         return otpInstance.otp === otp;
+    }
+
+    // Check if OTP already exists within 24 hours
+    static async isOTPUnique(email, otp) {
+        const key = `otp_history:${email}`;
+        const existingOTPs = await redisClient.lrangeAsync(key, 0, -1);
+        return !existingOTPs.includes(otp);
+    }
+
+    // Save OTP to history
+    static async saveOTPToHistory(email, otp) {
+        const key = `otp_history:${email}`;
+        await redisClient.lpushAsync(key, otp);
+        await redisClient.expireAsync(key, 24 * 60 * 60); // 24 hours
     }
 }
 

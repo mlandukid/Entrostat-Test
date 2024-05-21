@@ -1,6 +1,5 @@
 const otpService = require('../services/otpService');
 
-
 // Controller function to generate an OTP
 exports.generateOTP = async (req, res) => {
     try {
@@ -14,7 +13,6 @@ exports.generateOTP = async (req, res) => {
         res.status(500).json({ message: 'Error generating OTP', error: error.message });
     }
 };
-
 
 // Controller function to verify an OTP
 exports.verifyOTP = async (req, res) => {
@@ -33,6 +31,5 @@ exports.verifyOTP = async (req, res) => {
         res.status(500).json({ message: 'Error verifying OTP', error: error.message });
     }
 };
-
 
 
