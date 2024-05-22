@@ -1,5 +1,6 @@
 const redisClient = require('../utils/redisClient');
 const crypto = require('crypto');
+const logger = require('../utils/logger');
 
 class OTP {
     constructor(email, otp) {
@@ -24,17 +25,27 @@ class OTP {
         const hashedOTP = OTP.hashOTP(this.otp);
         await redisClient.setAsync(key, JSON.stringify({ email: this.email, otp: hashedOTP }));
         await redisClient.expireAsync(key, process.env.OTP_EXPIRY_SECONDS);
+        logger.info(`OTP for ${this.email} saved to Redis with expiry of ${process.env.OTP_EXPIRY_SECONDS} seconds`);
     }
 
     // Verify if the given OTP is valid for the specified email
     static async verify(email, otp) {
         const key = `otp:${email}`;
         const data = await redisClient.getAsync(key);
-        if (!data) return false;
+        if (!data) {
+            logger.warn(`No OTP found for ${email}`);
+            return false;
+        }
 
         const otpInstance = JSON.parse(data);
         const hashedOTP = OTP.hashOTP(otp);
-        return otpInstance.otp === hashedOTP;
+        const isValid = otpInstance.otp === hashedOTP;
+        if (isValid) {
+            logger.info(`OTP for ${email} is valid`);
+        } else {
+            logger.warn(`Invalid OTP for ${email}`);
+        }
+        return isValid;
     }
 
     // Check if OTP already exists within 24 hours
@@ -51,6 +62,7 @@ class OTP {
         const hashedOTP = OTP.hashOTP(otp);
         await redisClient.lpushAsync(key, hashedOTP);
         await redisClient.expireAsync(key, 24 * 60 * 60); // 24 hours
+        logger.info(`OTP for ${email} saved to history`);
     }
 }
 

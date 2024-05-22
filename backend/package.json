@@ -16,7 +16,8 @@
     "redis": "^3.1.2",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.1.6",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "winston": "^3.13.0"
   },
   "devDependencies": {
     "jest": "^26.6.3",

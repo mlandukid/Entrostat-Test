@@ -2,6 +2,7 @@ const OTP = require('../models/otpModel');
 const redisClient = require('../utils/redisClient');
 const nodemailer = require('nodemailer');
 const { promisify } = require('util');
+const logger = require('../utils/logger');
 
 // Configure the nodemailer transporter
 const transporter = nodemailer.createTransport({
@@ -29,7 +30,7 @@ const generateOTP = async (email) => {
             throw new Error('Too many OTP requests');
         }
 
-       // Generate a new OTP if none exists or if the existing OTP is not unique
+        // Generate a new OTP if none exists or if the existing OTP is not unique
         let otp = await redisClient.getAsync(`otp:${email}`);
         if (!otp || !(await OTP.isOTPUnique(email, otp))) {
             otp = OTP.generateOTP();
@@ -38,7 +39,7 @@ const generateOTP = async (email) => {
         await otpInstance.save();
         await OTP.saveOTPToHistory(email, otp);
         
-         // Configure the email options
+        // Configure the email options
         const mailOptions = {
             from: process.env.SMTP_FROM,
             to: email,
@@ -47,14 +48,14 @@ const generateOTP = async (email) => {
         };
 
         const info = await transporter.sendMail(mailOptions);
-        console.log('Email sent: ' + info.response);
+        logger.info(`Email sent to ${email}: ${info.response}`);
 
         await redisClient.incrAsync(`otp:count:${email}`);
         await redisClient.expireAsync(`otp:count:${email}`, 3600);
 
         return 'OTP sent successfully';
     } catch (error) {
-        console.error('Error generating OTP:', error);
+        logger.error('Error generating OTP:', error);
         throw new Error('Error generating OTP');
     }
 };
@@ -67,12 +68,9 @@ const verifyOTP = async (email, otp) => {
         }
         return isValid;
     } catch (error) {
-        console.error('Error verifying OTP:', error);
+        logger.error('Error verifying OTP:', error);
         throw new Error('Error verifying OTP');
     }
 };
 
 module.exports = { generateOTP, verifyOTP };
-
-
-

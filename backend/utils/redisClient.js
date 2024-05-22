@@ -1,5 +1,6 @@
 const redis = require('redis');
 const { promisify } = require('util');
+const logger = require('../utils/logger');
 
 const client = redis.createClient({
     host: process.env.REDIS_HOST || '127.0.0.1',
@@ -7,11 +8,11 @@ const client = redis.createClient({
 });
 
 client.on('connect', () => {
-    console.log('Connected to Redis...');
+    logger.info('Connected to Redis...');
 });
 
 client.on('error', (err) => {
-    console.log('Redis error: ', err);
+    logger.error('Redis error:', err);
 });
 
 client.getAsync = promisify(client.get).bind(client);
@@ -23,5 +24,4 @@ client.lpushAsync = promisify(client.lpush).bind(client);
 client.lrangeAsync = promisify(client.lrange).bind(client);
 
 module.exports = client;
-
 

@@ -85,7 +85,7 @@ OTP_RESEND_LIMIT=3
 cd backend
 node app.js
 ```
- you should see a starting application followed by connected to Redis message from there you will proceed to Accessing the application to view the frontend
+ you should see a starting application/ Server is running on port 8080 followed by connected to Redis message from there you will proceed to Accessing the application to view the frontend
 
 2. **Accessing the Application**
 
@@ -130,8 +130,6 @@ npm test
 - Separation of Concerns: The project is structured to separate the frontend and backend, making it easier to maintain and scale.
 
 - Redis for OTP Storage: Redis is used for storing OTPs due to its fast read/write operations and built-in expiry mechanism.
-
-- PostgreSQL for Persistent Storage: PostgreSQL is used for storing user-related data, providing robust data integrity and security features.
 
 - Rate Limiting: Implemented to prevent abuse by limiting the number of OTP requests per hour and the number of resends.
 
