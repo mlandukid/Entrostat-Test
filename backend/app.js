@@ -14,16 +14,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api/otp', otpRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-// Serve static files from the 'frontend' directory
-app.use(express.static(path.join(__dirname, '../frontend')));
+// Serve static files from the Angular 'dist/entrostat-frontend' directory
+app.use(express.static(path.join(__dirname, 'dist/frontend')));
 
-// For any other route, serve the frontend's index.html file
+// For any other route that does not start with '/api', serve the Angular app's index.html file
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
+    if (!req.path.startsWith('/api')) {
+        res.sendFile(path.join(__dirname, 'dist/frontend', 'index.html'));
+    }
 });
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
