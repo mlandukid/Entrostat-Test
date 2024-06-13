@@ -1,12 +1,12 @@
 <div class="container">
   <div id="quote" class="quote-container">{{ quote }}</div>
-  <h1>Entrostat Generate OTP</h1>
+  <h1><i class="fas fa-jedi"></i> Entrostat Generate OTP</h1>
   <form (ngSubmit)="onSubmit()">
     <label for="email">Email:</label>
     <input type="email" [(ngModel)]="email" name="email" class="smaller-input" required>
     <div class="button-container">
-      <button type="submit" [disabled]="isLoading">Submit</button>
-      <button type="button" (click)="onResend()" [disabled]="isLoading">Resend OTP</button>
+      <button type="submit" [disabled]="isLoading"><i class="fas fa-paper-plane"></i> Submit</button>
+      <button type="button" (click)="onResend()" [disabled]="isLoading"><i class="fas fa-sync-alt"></i> Resend OTP</button>
     </div>
   </form>
   <div id="message">{{ message }}</div>

@@ -26,7 +26,7 @@ body {
 }
 
 .loader-text {
-  font-family: 'Death Star', sans-serif;
+  font-family: 'Orbitron', sans-serif;
   font-size: 2rem;
   color: #ffcc00; /* Yellow color for the loader text */
   text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00, 0 0 30px #ffcc00;
@@ -43,7 +43,7 @@ body {
 }
 
 .loading {
-  font-family: 'Death Star', sans-serif;
+  font-family: 'Orbitron', sans-serif;
   font-size: 1.5rem;
   color: #ffcc00;
   text-align: center;
@@ -58,10 +58,20 @@ body {
   text-align: center;
   position: relative;
   z-index: 2;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 h1 {
-  font-family: 'Death Star', sans-serif;
+  font-family: 'Orbitron', sans-serif;  // Use Star Wars themed font
   font-size: 2rem;
   margin-bottom: 20px;
 }
@@ -72,12 +82,16 @@ label {
 }
 
 input {
-  width: 100%;
+  width: 80%;  
   padding: 10px;
   margin-bottom: 20px;
   border: none;
   border-radius: 5px;
   font-size: 1rem;
+}
+
+.smaller-input {
+  width: 70%; 
 }
 
 button {
@@ -87,12 +101,14 @@ button {
   border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.3s, box-shadow 0.3s;
+  transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
   box-shadow: 0 0 15px #ffcc00;
+  font-family: 'Orbitron', sans-serif;  // Use Star Wars themed font
 
   &:hover {
     background: #ff9900;
     box-shadow: 0 0 20px #ff9900;
+    transform: scale(1.1);
   }
 
   &::after {

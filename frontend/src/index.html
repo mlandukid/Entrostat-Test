@@ -5,8 +5,21 @@
   <title>Entrostat OTP</title>
   <base href="./">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
+  <div id="loader" class="loader">
+    <div class="loader-text">Loading...</div>
+  </div>
   <app-root></app-root>
+  <script>
+    // Hide loader once the content is loaded
+    window.onload = function() {
+      document.getElementById('loader').style.display = 'none';
+    }
+  </script>
 </body>
 </html>
+
