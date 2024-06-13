@@ -3,7 +3,7 @@
 
 ## Project Overview
 
-The Entrostat OTP System is a secure One-Time Password (OTP) generation and verification application built using Node.js, Express.js and Redis. The system includes a frontend for user interaction and a backend API for OTP generation and verification. Additionally, the project includes Swagger documentation for API endpoints and a fun element with random Star Wars quotes.
+The Entrostat OTP System is a secure One-Time Password (OTP) generation and verification application built using Node.js, Express.js and Redis. The system includes a frontend for user interaction and a backend API for OTP generation and verification. Additionally, the project includes Swagger documentation for API endpoints and a fun element with random Star Wars quotes. The Frontend has been updated to use Angular!!! 
 
 ## Table of Contents
 
@@ -32,7 +32,7 @@ The Entrostat OTP System is a secure One-Time Password (OTP) generation and veri
 
 - **Backend**: Node.js, Express.js
 - **Database**: Redis
-- **Frontend**: HTML, CSS, JavaScript
+- **Frontend**: Angular, HTML, SCSS, JavaScript
 - **API Documentation**: Swagger
 - **Testing**: Jest
 
@@ -200,4 +200,3 @@ displayQuote();
 ## How to Make It better
 - Quote Caching: Implement caching for the quotes to reduce the number of API calls.
 - Customization: Allow users to choose their favorite Star Wars character and display quotes from that character only.
-- Interactive Elements: Add animations or interactive elements to make the quotes more engaging.
