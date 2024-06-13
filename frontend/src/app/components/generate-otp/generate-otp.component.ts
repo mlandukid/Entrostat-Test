@@ -11,6 +11,7 @@ export class GenerateOtpComponent implements OnInit {
   email: string = '';  // Holds the user's email address
   message: string = '';  // Holds messages to display to the user
   quote: string = '';  // Holds a randomly selected Star Wars quote
+  isLoading: boolean = false;  // Indicates if an API call is in progress
 
   constructor(private otpService: OtpService, private router: Router) { }
 
@@ -20,32 +21,49 @@ export class GenerateOtpComponent implements OnInit {
 
   // Handles the submission of the OTP generation form
   onSubmit(): void {
+    if (!this.email) {
+      this.message = 'Please enter a valid email address';
+      return;
+    }
+
+    this.isLoading = true; 
     this.message = '';  // Clear any previous messages
     this.otpService.generateOtp(this.email).subscribe(
       (response) => {
         this.message = response.message;
+        this.isLoading = false;  
         this.router.navigate(['/verify-otp'], {
           queryParams: { email: this.email }
         });
       },
       (error) => {
-        this.message = error.error.message;
+        // Display error message if OTP generation fails
+        this.message = error.error.message || 'An error occurred. Please try again.';
+        this.isLoading = false;  // Hide loading indicator
       }
     );
   }
 
   // Handles the click event of the Resend OTP button
   onResend(): void {
+    if (!this.email) {
+      this.message = 'Please enter a valid email address';
+      return;
+    }
+
+    this.isLoading = true;  // Show loading indicator
     this.message = '';  // Clear any previous messages
     this.otpService.generateOtp(this.email).subscribe(
       (response) => {
         this.message = response.message;
+        this.isLoading = false;
         this.router.navigate(['/verify-otp'], {
           queryParams: { email: this.email }
         });
       },
       (error) => {
-        this.message = error.error.message;
+        this.message = error.error.message || 'An error occurred. Please try again.';
+        this.isLoading = false; 
       }
     );
   }
@@ -61,7 +79,6 @@ export class GenerateOtpComponent implements OnInit {
       { character: "Han Solo", quote: "Never tell me the odds! The OTP will never be the same." },
       { character: "Emperor Palpatine", quote: "Power! Unlimited power! Unlimited OTPs!" }
     ];
-    
     
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
     this.quote = `"${randomQuote.quote}" - ${randomQuote.character}`;

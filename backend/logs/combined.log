@@ -1,0 +1,16 @@
+2024-06-13T16:54:29.829Z [32minfo[39m: Connected to Redis...
+2024-06-13T16:54:43.869Z [31merror[39m: Error generating OTP: Too many OTP requests
+2024-06-13T16:54:43.870Z [31merror[39m: Error generating OTP: Error generating OTP
+2024-06-13T16:54:51.066Z [32minfo[39m: OTP for no-reply@entrostat.xyz saved to Redis with expiry of 30 seconds
+2024-06-13T16:54:51.068Z [32minfo[39m: OTP for no-reply@entrostat.xyz saved to history
+2024-06-13T16:54:51.135Z [32minfo[39m: Email sent to no-reply@entrostat.xyz: 250 Mail accepted for delivery
+2024-06-13T16:54:51.138Z [32minfo[39m: OTP generated and sent to no-reply@entrostat.xyz
+2024-06-13T16:55:02.238Z [32minfo[39m: OTP for no-reply@entrostat.xyz is valid
+2024-06-13T16:55:02.240Z [32minfo[39m: OTP for no-reply@entrostat.xyz verified successfully
+2024-06-13T16:57:42.264Z [32minfo[39m: Connected to Redis...
+2024-06-13T16:57:53.083Z [32minfo[39m: OTP for mlandu98@gmail.com saved to Redis with expiry of 30 seconds
+2024-06-13T16:57:53.084Z [32minfo[39m: OTP for mlandu98@gmail.com saved to history
+2024-06-13T16:57:53.147Z [32minfo[39m: Email sent to mlandu98@gmail.com: 250 Mail accepted for delivery
+2024-06-13T16:57:53.149Z [32minfo[39m: OTP generated and sent to mlandu98@gmail.com
+2024-06-13T16:58:07.457Z [32minfo[39m: OTP for mlandu98@gmail.com is valid
+2024-06-13T16:58:07.457Z [32minfo[39m: OTP for mlandu98@gmail.com verified successfully

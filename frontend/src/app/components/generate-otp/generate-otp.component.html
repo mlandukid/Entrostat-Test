@@ -1,14 +1,14 @@
 <div class="container">
-    <div id="quote" class="quote-container">{{ quote }}</div>
-    <h1>Entrostat Generate OTP</h1>
-    <form (ngSubmit)="onSubmit()">
-      <label for="email">Email:</label>
-      <input type="email" [(ngModel)]="email" name="email" required>
-      <div class="button-container">
-        <button type="submit">Submit</button>
-        <button type="button" (click)="onResend()">Resend OTP</button>
-      </div>
-    </form>
-    <div id="message">{{ message }}</div>
-  </div>
-  
+  <div id="quote" class="quote-container">{{ quote }}</div>
+  <h1>Entrostat Generate OTP</h1>
+  <form (ngSubmit)="onSubmit()">
+    <label for="email">Email:</label>
+    <input type="email" [(ngModel)]="email" name="email" class="smaller-input" required>
+    <div class="button-container">
+      <button type="submit" [disabled]="isLoading">Submit</button>
+      <button type="button" (click)="onResend()" [disabled]="isLoading">Resend OTP</button>
+    </div>
+  </form>
+  <div id="message">{{ message }}</div>
+  <div *ngIf="isLoading" class="loading">Loading...</div>
+</div>

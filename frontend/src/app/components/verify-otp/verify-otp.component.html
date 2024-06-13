@@ -1,15 +1,16 @@
 <div class="container">
-    <h1>Verify OTP</h1>
-    <form (ngSubmit)="onSubmit()">
-      <label for="email">Email:</label>
-      <input type="email" [(ngModel)]="email" name="email" required>
-      <label for="otp">OTP:</label>
-      <input type="text" [(ngModel)]="otp" name="otp" required>
-      <div class="button-container">
-        <button type="submit">Verify</button>
-        <button type="button" (click)="onBack()">Back</button>
-      </div>
-    </form>
-    <div id="message">{{ message }}</div>
-  </div>
-  
+  <h1>Verify OTP</h1>
+  <form (ngSubmit)="onSubmit()">
+    <label for="email">Email:</label>
+    <input type="email" [(ngModel)]="email" name="email" required>
+    <label for="otp">OTP:</label>
+    <input type="text" [(ngModel)]="otp" name="otp" required>
+    <div class="button-container">
+      <button type="submit" [disabled]="isLoading">Verify</button>
+      <button type="button" (click)="onBack()" [disabled]="isLoading">Back</button>
+    </div>
+  </form>
+  <div id="message">{{ message }}</div>
+  <div *ngIf="isLoading" class="loading">Loading...</div>
+</div>
+

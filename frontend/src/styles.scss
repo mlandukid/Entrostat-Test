@@ -25,6 +25,31 @@ body {
   z-index: 9999;
 }
 
+.loader-text {
+  font-family: 'Death Star', sans-serif;
+  font-size: 2rem;
+  color: #ffcc00; /* Yellow color for the loader text */
+  text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00, 0 0 30px #ffcc00;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.loading {
+  font-family: 'Death Star', sans-serif;
+  font-size: 1.5rem;
+  color: #ffcc00;
+  text-align: center;
+  margin-top: 20px;
+}
+
 .container {
   background: rgba(0, 0, 0, 0.8);
   padding: 20px;
